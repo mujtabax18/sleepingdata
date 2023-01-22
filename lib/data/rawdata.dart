@@ -1,6 +1,4 @@
-import 'package:flutter/material.dart';
-
-var ChartData = {
+var RawData = {
   'man 1 (champagne)': {
     'awake': [
       59,
