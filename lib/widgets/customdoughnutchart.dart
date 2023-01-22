@@ -29,6 +29,10 @@ class _Doughnut_testState extends State<Doughnut_test> {
       color: Colors.white,
       child: Container(
           child: SfCircularChart(
+              tooltipBehavior: _tooltipBehavior,
+              title: ChartTitle(
+                text: 'Sleeping Ratio',
+              ),
               legend: Legend(isVisible: true),
               series: <CircularSeries>[
             // Renders doughnut chart

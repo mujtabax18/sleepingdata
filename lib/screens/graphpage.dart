@@ -1,3 +1,4 @@
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 import 'package:sleepingdata/model/doughnutchartmodel.dart';
@@ -39,7 +40,6 @@ class _GraphPageState extends State<GraphPage> {
     List<int> rem = tempGetData.GetSubjectPropertyValue(subject, 'REM');
     List<int> light = tempGetData.GetSubjectPropertyValue(subject, 'Light');
     List<int> deep = tempGetData.GetSubjectPropertyValue(subject, 'Deep');
-    print(awake);
     culomnChartData = getculomnchartdata(
       awake: awake,
       rem: rem,
@@ -61,9 +61,16 @@ class _GraphPageState extends State<GraphPage> {
     required List<int> deep,
   }) {
     List<CulomnChartData> tempList = [];
-    for (var i = 0; i < awake.length; i++) {
-      tempList
-          .add(CulomnChartData('Day$i', awake[i], rem[i], light[i], deep[i]));
+    for (var i = 0; i <= 30; i++) {
+      tempList.add(
+        CulomnChartData(
+          '${i + 1}',
+          awake.length - 1 < i ? 0 : awake[i],
+          rem.length - 1 < i ? 0 : rem[i],
+          light.length - 1 < i ? 0 : light[i],
+          deep.length - 1 < i ? 0 : deep[i],
+        ),
+      );
     }
     return tempList;
   }
@@ -92,31 +99,111 @@ class _GraphPageState extends State<GraphPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<CulomnChartData> chartData = [
-      CulomnChartData('person1', 59, 117, 277, 28),
-      CulomnChartData('person2', 42, 115, 335, 53),
-      CulomnChartData('person3', 46, 114, 290, 27),
-      CulomnChartData('person4', 18, 98, 163, 83),
-      CulomnChartData('person5', 46, 114, 290, 27),
-      CulomnChartData('person6', 18, 98, 163, 83),
-    ];
-
+    final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
-            AspectRatio(
-              aspectRatio: 1.5,
-              child: bar_test(
-                chartData: culomnChartData,
+            Container(
+              height: mediaQuery.height / 5,
+              decoration: BoxDecoration(
+                color: Color(0xff9D80FE),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 8, left: 8, right: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Sleep Data:',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        PopupMenuButton(
+                          onSelected: (value) {
+                            setState(() {
+                              _selectedSubject = subjectList.indexOf(value);
+                              Updatedata(subjectList[_selectedSubject]);
+                            });
+                          },
+                          initialValue: subjectList[_selectedSubject],
+                          child: Center(
+                              child: Text('${subjectList[_selectedSubject]}',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20,
+                                  ))),
+                          itemBuilder: (context) {
+                            return List.generate(subjectList.length, (index) {
+                              return PopupMenuItem(
+                                value: subjectList[index],
+                                child: Text('${subjectList[index]}',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontSize: 20,
+                                    )),
+                              );
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
+                  Text(
+                    'SLEEP',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontWeight: FontWeight.w400,
+                      fontSize: 30,
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 15),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Text(
+                          'Day',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          'Week',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          'Month',
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
               ),
             ),
-            AspectRatio(
-              aspectRatio: 1.5,
-              child: Doughnut_test(
-                chartData: doughnutChartData,
-              ),
+            SizedBox(
+              height: 10,
+            ),
+            Center(child: Text('2023-01-22, Sun')),
+            bar_test(
+              chartData: culomnChartData,
+            ),
+            Doughnut_test(
+              chartData: doughnutChartData,
             ),
           ],
         ),

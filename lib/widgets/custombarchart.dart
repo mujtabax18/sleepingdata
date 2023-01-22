@@ -27,42 +27,52 @@ class _bar_testState extends State<bar_test> {
     return Container(
         color: Colors.white,
         child: Container(
-            child: SfCartesianChart(
-                tooltipBehavior: _tooltipBehavior,
-                legend: Legend(
-                  isVisible: true,
-                  position: LegendPosition.top,
-                ),
-                primaryXAxis: CategoryAxis(),
-                series: <ChartSeries>[
-              StackedColumnSeries<CulomnChartData, String>(
-                dataSource: widget.chartData,
-                xValueMapper: (CulomnChartData data, _) => data.x,
-                yValueMapper: (CulomnChartData data, _) => data.y,
-                name: 'awake',
-                color: Color(0xff6043FF),
+            child: Column(
+          children: [
+            Container(
+              margin: EdgeInsets.only(
+                left: 1,
               ),
-              StackedColumnSeries<CulomnChartData, String>(
-                dataSource: widget.chartData,
-                xValueMapper: (CulomnChartData data, _) => data.x,
-                yValueMapper: (CulomnChartData data, _) => data.y2,
-                name: 'REM',
-                color: Color(0xffD671F4),
-              ),
-              StackedColumnSeries<CulomnChartData, String>(
-                dataSource: widget.chartData,
-                xValueMapper: (CulomnChartData data, _) => data.x,
-                yValueMapper: (CulomnChartData data, _) => data.y3,
-                name: 'light',
-                color: Color(0xffFE987F),
-              ),
-              StackedColumnSeries<CulomnChartData, String>(
-                dataSource: widget.chartData,
-                xValueMapper: (CulomnChartData data, _) => data.x,
-                yValueMapper: (CulomnChartData data, _) => data.y4,
-                name: 'Deep',
-                color: Color(0xffFFCF43),
-              )
-            ])));
+              child: SfCartesianChart(
+                  plotAreaBorderWidth: 0,
+                  tooltipBehavior: _tooltipBehavior,
+                  legend: Legend(
+                    isVisible: true,
+                    position: LegendPosition.top,
+                  ),
+                  primaryXAxis: CategoryAxis(),
+                  series: <ChartSeries>[
+                    StackedColumnSeries<CulomnChartData, String>(
+                      dataSource: widget.chartData,
+                      xValueMapper: (CulomnChartData data, _) => data.x,
+                      yValueMapper: (CulomnChartData data, _) => data.y,
+                      name: 'awake',
+                      color: Color(0xff6043FF),
+                    ),
+                    StackedColumnSeries<CulomnChartData, String>(
+                      dataSource: widget.chartData,
+                      xValueMapper: (CulomnChartData data, _) => data.x,
+                      yValueMapper: (CulomnChartData data, _) => data.y2,
+                      name: 'REM',
+                      color: Color(0xffD671F4),
+                    ),
+                    StackedColumnSeries<CulomnChartData, String>(
+                      dataSource: widget.chartData,
+                      xValueMapper: (CulomnChartData data, _) => data.x,
+                      yValueMapper: (CulomnChartData data, _) => data.y3,
+                      name: 'light',
+                      color: Color(0xffFE987F),
+                    ),
+                    StackedColumnSeries<CulomnChartData, String>(
+                      dataSource: widget.chartData,
+                      xValueMapper: (CulomnChartData data, _) => data.x,
+                      yValueMapper: (CulomnChartData data, _) => data.y4,
+                      name: 'Deep',
+                      color: Color(0xffFFCF43),
+                    )
+                  ]),
+            ),
+          ],
+        )));
   }
 }
